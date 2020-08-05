@@ -564,8 +564,18 @@ for i = 1, 9 do
         descr_toggle_focus = {description = "toggle focused client on tag #", group = "tag"}
     end
     globalkeys = my_table.join(globalkeys,
-        -- View tag only.
+        -- View tag only using modkey.
         awful.key({ modkey }, "#" .. i + 9,
+                  function ()
+                        local screen = awful.screen.focused()
+                        local tag = screen.tags[i]
+                        if tag then
+                           tag:view_only()
+                        end
+                  end,
+                  descr_view),
+        -- View tag only using altkey.
+        awful.key({ altkey }, "#" .. i + 9,
                   function ()
                         local screen = awful.screen.focused()
                         local tag = screen.tags[i]
@@ -584,8 +594,19 @@ for i = 1, 9 do
                       end
                   end,
                   descr_toggle),
-        -- Move client to tag.
+        -- Move client to tag using modkey.
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
+                  function ()
+                      if client.focus then
+                          local tag = client.focus.screen.tags[i]
+                          if tag then
+                              client.focus:move_to_tag(tag)
+                          end
+                     end
+                  end,
+                  descr_move),
+        -- Move client to tag using altkey.
+        awful.key({ altkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus then
                           local tag = client.focus.screen.tags[i]
@@ -847,6 +868,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- startup applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/Pictures/wallpapers/mountains2.jpg"))
+awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/Pictures/wallpapers/mountains3.jpg"))
 awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output LVDS-1 --off"))
-
