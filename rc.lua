@@ -740,8 +740,8 @@ awful.rules.rules = {
     -- { rule = { class = "VirtualBox Machine" },
     --       properties = { maximized = true } },
 
-    -- { rule = { class = "Xfce4-settings-manager" },
-    --       properties = { floating = false } },
+    { rule = { class = "cinnamon-settings sound" },
+           properties = { floating = true } },
 
 
 
@@ -869,4 +869,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
 awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/Pictures/wallpapers/mountains3.jpg"))
-awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output LVDS-1 --off"))
+-- awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output LVDS-1 --off"))
