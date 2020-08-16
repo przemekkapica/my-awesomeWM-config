@@ -82,7 +82,7 @@ local virtualmachine    = "virtualbox"
 -- awesome variables
 awful.util.terminal = terminal
 --awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
-awful.util.tagnames = { "  NET  ", "  ZSH  ", "  DEV  ", "  MUS  ", "  NEMO  ", "  GFX  ", "  DOC  ", "  VBOX  ", "  TMP  " }
+awful.util.tagnames = { "  NET  ", "  ZSH  ", "  DEV  ", "  MUS  ", "  DFM  ", "  GFX  ", "  DOC  ", "  VBX  ", "  TMP  " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -266,8 +266,8 @@ globalkeys = my_table.join(
         {description = "lock screen" }),
 
    	-- applications keybindings
-   	awful.key({ modkey, "Shift" }, "Return", function () awful.util.spawn( "firefox" ) end,
-        {description = "launch firefox browser" }),
+   	awful.key({ modkey, "Shift" }, "Return", function () awful.util.spawn( "brave-browser" ) end,
+        {description = "launch brave browser" }),
     awful.key({ modkey }, "n", function () awful.util.spawn( "nemo" ) end,
         {description = "launch nemo file manager" }) ,
     awful.key({ modkey }, "a", function () awful.util.spawn( "atom" ) end,
@@ -868,5 +868,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- startup applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/mountains3.jpg"))
+awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/mountains2.jpg"))
+awful.spawn.with_shell("set_touchpad")
 -- awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output LVDS-1 --off"))
