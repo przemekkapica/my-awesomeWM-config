@@ -272,6 +272,8 @@ globalkeys = my_table.join(
         {description = "launch nemo file manager" }) ,
     awful.key({ modkey }, "a", function () awful.util.spawn( "atom" ) end,
         {description = "launch atom editor" }),
+    awful.key({ modkey }, "v", function () awful.util.spawn( "code" ) end,
+        {description = "launch atom editor" }),
 
     -- Non-empty tag browsing
     --awful.key({ modkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
@@ -868,6 +870,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- startup applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/mountains2.jpg"))
+awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/water.jpg"))
 awful.spawn.with_shell("set_touchpad")
--- awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output LVDS-1 --off"))
+awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output eDP-1 --off"))
