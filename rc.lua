@@ -82,31 +82,31 @@ local virtualmachine    = "virtualbox"
 -- awesome variables
 awful.util.terminal = terminal
 --awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
-awful.util.tagnames = { "  NET  ", "  ZSH  ", "  DEV  ", "  MUS  ", "  DFM  ", "  GFX  ", "  DOC  ", "  VBX  ", "  TMP  " }
+awful.util.tagnames = { "  NET  ", "  ZSH  ", "  DEV  ", "  MUS  ", "  DFM  ", "  GFX  ", "  DOC  ", "  VBX  ", "  TMP  ", "  SOC  " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
     awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
     awful.layout.suit.fair,
-    -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.spiral,
-    -- awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max
-    -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
-    -- lain.layout.cascade,
-    -- lain.layout.cascade.tile,
-    -- lain.layout.centerwork,
-    -- lain.layout.centerwork.horizontal,
-    -- lain.layout.termfair,
-    -- lain.layout.termfair.center,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.corner.nw,
+    awful.layout.suit.corner.ne,
+    awful.layout.suit.corner.sw,
+    awful.layout.suit.corner.se,
+    lain.layout.cascade,
+    lain.layout.cascade.tile,
+    lain.layout.centerwork,
+    lain.layout.centerwork.horizontal,
+    lain.layout.termfair,
+    lain.layout.termfair.center
 }
 
 awful.util.taglist_buttons = my_table.join(
@@ -268,8 +268,8 @@ globalkeys = my_table.join(
    	-- applications keybindings
    	awful.key({ modkey, "Shift" }, "Return", function () awful.util.spawn( "brave-browser" ) end,
         {description = "launch brave browser" }),
-    awful.key({ modkey }, "n", function () awful.util.spawn( "nemo" ) end,
-        {description = "launch nemo file manager" }) ,
+    awful.key({ modkey }, "n", function () awful.util.spawn( "nautilus" ) end,
+        {description = "launch nautilus file manager" }) ,
     awful.key({ modkey }, "a", function () awful.util.spawn( "atom" ) end,
         {description = "launch atom editor" }),
     awful.key({ modkey }, "v", function () awful.util.spawn( "code" ) end,
@@ -350,8 +350,11 @@ globalkeys = my_table.join(
 
 
 
-    awful.key({ modkey,           }, "w", function () awful.util.mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    awful.key({ modkey }, "w", function () awful.spawn( "cinnamon-settings network" ) end,
+              {description = "open gui network manager", group = "awesome"}),
+
+    awful.key({ modkey }, "g", function () awful.spawn( "gnome-control-center" ) end,
+              {description = "open gnome control center", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "Right", function () awful.client.swap.byidx(  1)    end,
@@ -553,18 +556,90 @@ clientkeys = my_table.join(
         {description = "maximize", group = "client"})
 )
 
+
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
--- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+-- This should map on the top row of your keyboard, usually 1 to 10.
+
+for i = 1, 10 do
     -- Hack to only show tags 1 and 9 in the shortcut window (mod+s)
     local descr_view, descr_toggle, descr_move, descr_toggle_focus
+
     if i == 1 or i == 9 then
         descr_view = {description = "view tag #", group = "tag"}
         descr_toggle = {description = "toggle tag #", group = "tag"}
         descr_move = {description = "move focused client to tag #", group = "tag"}
         descr_toggle_focus = {description = "toggle focused client on tag #", group = "tag"}
     end
+
+    if i == 10 then
+    globalkeys = my_table.join(globalkeys,
+        -- View tag only using modkey.
+        awful.key({ modkey }, "0",
+                  function ()
+                        local screen = awful.screen.focused()
+                        local tag = screen.tags[i]
+                        if tag then
+                           tag:view_only()
+                        end
+                  end,
+                  descr_view),
+        -- View tag only using altkey.
+        awful.key({ altkey }, "0",
+                  function ()
+                        local screen = awful.screen.focused()
+                        local tag = screen.tags[i]
+                        if tag then
+                           tag:view_only()
+                        end
+                  end,
+                  descr_view),
+        -- Toggle tag display.
+        awful.key({ modkey, "Control" }, "0",
+                  function ()
+                      local screen = awful.screen.focused()
+                      local tag = screen.tags[i]
+                      if tag then
+                         awful.tag.viewtoggle(tag)
+                      end
+                  end,
+                  descr_toggle),
+        -- Move client to tag using modkey.
+        awful.key({ modkey, "Shift" }, "0",
+                  function ()
+                      if client.focus then
+                          local tag = client.focus.screen.tags[i]
+                          if tag then
+                              client.focus:move_to_tag(tag)
+                          end
+                     end
+                  end,
+                  descr_move),
+        -- Move client to tag using altkey.
+        awful.key({ altkey, "Shift" }, "0",
+                  function ()
+                      if client.focus then
+                          local tag = client.focus.screen.tags[i]
+                          if tag then
+                              client.focus:move_to_tag(tag)
+                          end
+                     end
+                  end,
+                  descr_move),
+        -- Toggle tag on focused client.
+        awful.key({ modkey, "Control", "Shift" }, "0",
+                  function ()
+                      if client.focus then
+                          local tag = client.focus.screen.tags[i]
+                          if tag then
+                              client.focus:toggle_tag(tag)
+                          end
+                      end
+                  end,
+                  descr_toggle_focus)
+    )
+    end
+
     globalkeys = my_table.join(globalkeys,
         -- View tag only using modkey.
         awful.key({ modkey }, "#" .. i + 9,
@@ -673,6 +748,9 @@ awful.rules.rules = {
     { rule = { class = "Nemo" },
         properties = { screen = 1, tag = awful.util.tagnames[5] } },
 
+    { rule = { class = "Org.gnome.Nautilus" },
+        properties = { screen = 1, tag = awful.util.tagnames[5] } },
+
     { rule = { class = "Eog" },
         properties = { screen = 1, tag = awful.util.tagnames[6] } },
 
@@ -689,6 +767,9 @@ awful.rules.rules = {
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
     { rule = { class = "Xreader" },
+        properties = { screen = 1, tag = awful.util.tagnames[7] } },
+
+    { rule = { class = "Evince" },
         properties = { screen = 1, tag = awful.util.tagnames[7] } },
 
     { rule = { class = "Sublime_text" },
@@ -743,6 +824,12 @@ awful.rules.rules = {
     --       properties = { maximized = true } },
 
     { rule = { class = "cinnamon-settings sound" },
+           properties = { floating = true } },
+
+    { rule = { class = "cinnamon-settings network" },
+           properties = { floating = true } },
+
+    { rule = { class = "Gnome-control-center" },
            properties = { floating = true } },
 
 
@@ -870,6 +957,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- startup applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/water.jpg"))
+awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/water2.jpg"))
 awful.spawn.with_shell("set_touchpad")
 awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output eDP-1 --off"))
