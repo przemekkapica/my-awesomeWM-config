@@ -82,7 +82,7 @@ local virtualmachine    = "virtualbox"
 -- awesome variables
 awful.util.terminal = terminal
 --awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
-awful.util.tagnames = { "  NET  ", "  ZSH  ", "  DEV  ", "  MUS  ", "  DFM  ", "  GFX  ", "  DOC  ", "  VBX  ", "  TMP  ", "  SOC  " }
+awful.util.tagnames = { "  NET  ", "  ZSH  ", "  DEV  ", "  MUS  ", "  DFM  ", "  GFX  ", "  DOC  ", "  VBX  ", "  TMP  ", "  CHT  " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -832,6 +832,9 @@ awful.rules.rules = {
     { rule = { class = "Gnome-control-center" },
            properties = { floating = true } },
 
+    { rule = { class = "Gnome-calendar" },
+           properties = { floating = true } },
+
 
 
     -- Floating clients.
@@ -957,6 +960,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- startup applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/water2.jpg"))
+awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/blue.jpg"))
 awful.spawn.with_shell("set_touchpad")
 awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output eDP-1 --off"))
+--awful.spawn.with_shell("setup_workspace")
+awful.spawn.with_shell("onedrive_sync")
+awful.spawn.with_shell("google_drive_sync")
