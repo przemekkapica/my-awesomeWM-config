@@ -211,13 +211,13 @@ root.buttons(my_table.join(
 globalkeys = my_table.join(
 
     -- Personal keybindings
-    -- dmenu
+    -- drun
     awful.key({ modkey }, "d",
     function ()
         awful.spawn(string.format('rofi -show drun -theme ~/.config/rofi/theme.rasi -display-drun ""',
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	end,
-    {description = "show dmenu", group = "hotkeys"}),
+    {description = "Show drun", group = "hotkeys"}),
 
     -- resize vertically
     awful.key({ modkey, "Mod1"    }, "Right",     function () awful.tag.incmwfact( 0.01)    end),
@@ -225,15 +225,14 @@ globalkeys = my_table.join(
 	awful.key({ modkey, "Mod1"    }, "Down",     function () awful.client.incwfact( 0.01)    end),
 	awful.key({ modkey, "Mod1"    }, "Up",     function () awful.client.incwfact(-0.01)    end),
 
-    -- screenshots
+    -- Screenshots
     awful.key({ modkey, "Shift" }, "s", function () awful.util.spawn("flameshot gui") end,
-        {description = "Scrot", group = "screenshots"}),
+        {description = "Screenshot", group = "screenshots"}),
 
+    -- Sound settings
+    awful.key({ modkey }, "s", function() awful.util.spawn("cinnamon-settings sound") end,
+        {description = "Launch sound settings", group="awesome"}),
 
-    -- Hotkeys Awesome
-
-    awful.key({ modkey,           }, "s",    function() awful.util.spawn("cinnamon-settings sound") end,
-        {description = "launch sound settings", group="awesome"}),
 
     -- Tag browsing with modkey
     -- awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -244,13 +243,13 @@ globalkeys = my_table.join(
     --     {description = "go back", group = "tag"}),
 
      -- Tag browsing alt + tab
-    awful.key({ altkey,           }, "Tab",   awful.tag.viewnext,
+    awful.key({ altkey }, "Tab",   awful.tag.viewnext,
         {description = "view next", group = "tag"}),
     awful.key({ altkey, "Shift"   }, "Tab",  awful.tag.viewprev,
         {description = "view previous", group = "tag"}),
 
      -- Tag browsing modkey + tab
-    awful.key({ modkey,           }, "Tab",   awful.tag.viewnext,
+    awful.key({ modkey }, "Tab",   awful.tag.viewnext,
         {description = "view next", group = "tag"}),
     awful.key({ modkey, "Shift"   }, "Tab",  awful.tag.viewprev,
         {description = "view previous", group = "tag"}),
@@ -265,8 +264,8 @@ globalkeys = my_table.join(
     awful.key({ modkey }, "Escape", function () awful.util.spawn( "i3lock" ) end,
         {description = "lock screen" }),
 
-   	-- applications keybindings
-   	awful.key({ modkey, "Shift" }, "Return", function () awful.util.spawn( "brave-browser" ) end,
+   	-- Applications keybindings
+   	awful.key({ modkey, "Shift" }, "Return", function () awful.util.spawn( browser ) end,
         {description = "launch brave browser" }),
     awful.key({ modkey }, "n", function () awful.util.spawn( "nautilus" ) end,
         {description = "launch nautilus file manager" }) ,
@@ -960,9 +959,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- startup applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/blue.jpg"))
+awful.spawn.with_shell(awful.spawn.with_shell("feh --bg-scale ~/.config/awesome/wallpapers/mountains7.jpg"))
 awful.spawn.with_shell("set_touchpad")
 awful.spawn.with_shell(awful.spawn.with_shell("xrandr --output eDP-1 --off"))
-awful.spawn.with_shell("setup_workspace")
+-- awful.spawn.with_shell("setup_workspace")
 awful.spawn.with_shell("onedrive_sync")
 awful.spawn.with_shell("google_drive_sync")

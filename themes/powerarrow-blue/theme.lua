@@ -212,16 +212,16 @@ local cpu = lain.widget.cpu({
     end
 })
 
---[[ Coretemp (lm_sensors, per core)
-local tempwidget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep Core'}, 30,
-function(widget, stdout)
-    local temps = ""
-    for line in stdout:gmatch("[^\r\n]+") do
-        temps = temps .. line:match("+(%d+).*°C")  .. "° " -- in Celsius
-    end
-    widget:set_markup(markup.font(theme.font, " " .. temps))
-end)
---]]
+-- Coretemp (lm_sensors, per core)
+-- local tempwidget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep Core'}, 30,
+-- function(widget, stdout)
+--     local temps = ""
+--     for line in stdout:gmatch("[^\r\n]+") do
+--         temps = temps .. line:match("+(%d+).*°C")  .. "° " -- in Celsius
+--     end
+--     widget:set_markup(markup.font(theme.font, " " .. temps) .. "°C ")
+-- end)
+
 -- Coretemp (lain, average)
 local temp = lain.widget.temp({
     settings = function()
